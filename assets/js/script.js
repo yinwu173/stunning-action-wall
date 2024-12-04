@@ -71,7 +71,35 @@ function renderTaskList() {
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event) {
+    event.preventDefault();
 
+    // Read user input from the form
+    const cardTitle = inputTitle.val().trim();
+    const cardDescription = inputDescription.val().trim();
+    const cardDueDate = inputDueDate.val().trim();
+
+    if (!inputTitle || !inputDescription || !inputDueDate) {
+        alert('You need to fill out the form!');
+        return;
+    }
+
+    const newTask = {
+        id: generateTaskId(),
+        title: cardTitle,
+        description: cardDescription,
+        dueDate: cardDueDate,
+        status: 'to-do',
+    };
+
+    taskList.push(newTask); // push the new task to the array
+    localStorage.setItem('tasks', JSON.stringify(taskList));
+
+    renderTaskList(); // Print task data back to the screen
+
+    // Clear the form inputs
+    inputTitle.val()('');
+    inputDescription.val()('');
+    inputDueDate.val()('');
 }
 
 // Todo: create a function to handle deleting a task
