@@ -65,7 +65,7 @@ function renderTaskList() {
     // Use JQuery UI to make task cards draggable
     $('.draggable').draggable({
         opacity: 0.7,
-        zIndex: 100,    
+        zIndex: 100,
     });
 }
 
@@ -86,5 +86,18 @@ function handleDrop(event, ui) {
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
+    // render task to the screen on page load if there is any
+    renderTaskList();
 
+    $('#taskDueDate').datepicker({
+        changeMonth: true,
+        changeYear: true,
+        dateFormat: 'mm-dd-yyyy'
+    });
+
+    // Make lanes droppable
+    $('.lane').droppable({
+        accept: '.draggable',
+        drop: handleDrop,
+    });
 });
