@@ -13,7 +13,37 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
+    const taskCard = $('<div>')
+        .addClass('card task-card draggable')
+        .attr('id', task.id);
+    const cardBody = $('<div>').addClass('card-body');
+    const cardTitle = $("<h5>").addClass("card-title").text(task.title);
+    const cardDescription = $('<p>').addClass('card-text').text(task.description);
+    const cardDueDate = $('<p>').addClass('card-text').text(task.dueDate);
+    const cardDeleteBtn = $('<button>')
+        .addClass('btn btn-danger delete')
+        .text('Delete')
+        .attr('id', task.id);
+    cardDeleteBtn.on('click', handleDeleteTask);
 
+    if (task.dueDate && task.status !== 'done') {
+        const now = dayjs();
+        const taskDueDate = dayjs(task.dueDate, 'MM/DD/YYYY');
+
+        // If the task is nearing the deadline (yellow) or is overdue (red)
+        if (now.isBefore(taskDueDate, 'day')) {
+            taskCard.addClass('bg-warning text-white');
+        } else if (now.isAfter(taskDueDate)) {
+            taskCard.addClass('bg-danger text-white');
+        }
+    }
+
+    // Gather all the elements created above and append them to the correct elements.
+    cardBody.append(cardTitle, cardDescription, cardDueDate, cardDeleteBtn);
+    taskCard.append(cardBody);
+
+    // Return the card so it can be appended to the correct lane.
+    return taskCard;
 }
 
 // Todo: create a function to render the task list and make cards draggable
@@ -22,12 +52,12 @@ function renderTaskList() {
 }
 
 // Todo: create a function to handle adding a new task
-function handleAddTask(event){
+function handleAddTask(event) {
 
 }
 
 // Todo: create a function to handle deleting a task
-function handleDeleteTask(event){
+function handleDeleteTask(event) {
 
 }
 
